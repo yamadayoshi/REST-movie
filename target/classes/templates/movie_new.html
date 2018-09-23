@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/prism.css">
+  <link rel="stylesheet" href="/css/chosen.css">
+  <title>Add Movie</title>
+</head>
+<body>
+  <form action="#" th:action="@{/movie/new}" th:object="${movie}" method="post">
+    <p>Title</p><input type="text" th:field=*{title}>
+    <p>Description</p><input type="text" th:field=*{description}>
+    
+    <p>Genre</p>
+    <select class="chosen-select" id="cmbGenre" th:field=*{genre} multiple>
+      <option value="">Select genre</option>
+      <option th:each="genreValue : ${genreList}" 
+              th:value="${genreValue.genre}" 
+              th:text="${genreValue.genre}" />
+    </select>
+    
+    <p>Category</p>
+    <select class="chosen-select" id="cmbCategory" th:field=*{category}>
+      <option value="">Select category</option>
+      <option th:each="categoryValue : ${categoryList}"
+      		  th:value="${categoryValue.category}"
+      		  th:text="${categoryValue.category}" />    
+    </select>
+        
+    <p>Cover</p>
+    <input type="file" th:field=*{cover}>    
+    
+    <p>Image detail</p> 
+    <input type="file" th:field=*{imageDetail}>
+    
+    <p><input type="submit" value="Save"></p>      
+  </form>  
+  
+  <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/js/chosen.jquery.js"></script>
+  <script type="text/javascript" src="/js/prism.js" charset="utf-8"></script>
+  <script type="text/javascript" src="/js/init.js" charset="utf-8"></script>
+</body>
+</html>

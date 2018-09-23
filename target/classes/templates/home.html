@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Solução</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+        <base href="/"/>
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+        <script type="text/javascript">
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (settings.type == 'POST' || settings.type == 'PUT'
+                            || settings.type == 'DELETE') {
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/
+                                .test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-XSRF-TOKEN",
+                                    Cookies.get('XSRF-TOKEN'));
+                        }
+                    }
+                }
+            });
+            $.get("/user", function (data) {
+                $("#user").html(data.userAuthentication.details.name);
+                $(".unauthenticated").hide()
+                $(".authenticated").show()
+            });
+            var logout = function () {
+                $.post("/logout", function () {
+                    $("#user").html('');
+                    $(".unauthenticated").show();
+                    $(".authenticated").hide();
+                })
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+        	<div align="center">
+        		<h2>Solução</h2>
+        	</div>
+        	<div align="justify">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget tellus cursus, lobortis lorem maximus, interdum nulla. Donec aliquet sem sed lectus condimentum, non suscipit sapien ornare. Curabitur sit amet consectetur metus. Phasellus vestibulum lorem vel ultricies maximus. Pellentesque nisl diam, feugiat sit amet ultrices eget, luctus vitae nisl. Sed consequat, sapien sed vestibulum luctus, felis nulla porttitor odio, quis tristique erat arcu et lorem. Nullam dignissim condimentum orci, iaculis tristique ipsum hendrerit eget. Etiam in nisi lacus. Nam aliquam sed turpis quis condimentum. Ut et dui finibus, commodo felis hendrerit, sollicitudin risus. Vivamus id nibh at purus commodo lacinia a vitae justo. Maecenas pretium, magna imperdiet vulputate ornare, mi justo scelerisque ligula, at efficitur mauris est in lacus.</p>
+				<p>Aliquam iaculis, enim vel pellentesque scelerisque, lorem metus blandit leo, vel sagittis mi est at elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam sem leo, luctus fermentum euismod at, ornare in risus. Vivamus in diam vitae felis suscipit volutpat non a erat. Ut sed lobortis odio. Pellentesque eleifend finibus justo id iaculis. Sed sed aliquet mauris, quis pretium nisi. Suspendisse lacinia tempor velit eu bibendum. Morbi bibendum eu ex vel rutrum. Fusce lobortis blandit ex, id porta metus pulvinar id. Ut faucibus nunc vitae est porttitor mattis. Praesent nec augue sagittis, luctus libero sed, interdum massa. Pellentesque dignissim felis sit amet urna hendrerit viverra. Praesent rutrum tempor massa, semper laoreet tortor elementum vel.</p>        	
+        	</div>        
+        
+            <div class="container unauthenticated" align="center">
+            	<p>Logar com:</p>
+                <a href="/user"><button type="button" class="btn btn-primary" name="facebook"><img height="25px" width="25px" src="http://stuffpoint.com/facebook/image/125559-facebook-official-facebook-icon.png" alt="facebook login"> Facebook</button></a>
+            </div>
+            <div class="container authenticated" style="display:none">
+                Autenticado como: <span id="user"></span> via Facebook login       
+                
+			    <form action="#" th:action="@{/}" th:object="${usuario}" method="post">
+					<p>Nome: <input type="text" th:field="*{name}" /></p>
+			    	<p>E-mail: <input type="text" th:field="*{email}" /></p>
+			        <p>Logradouro: <input type="text" th:field="*{logradouro}" /></p>
+					<p>Endereco: <input type="text" th:field="*{endereco}" /></p>
+					<p>Número: <input type="text" th:field="*{numero}" /></p>
+					<p>Bairro: <input type="text" th:field="*{bairro}" /></p>
+					<p>Cidade: <input type="text" th:field="*{Cidade}" /></p>
+					<p>Estado: <input type="text" th:field="*{estado}" /></p>		        
+			        <p><input type="submit" value="Submit" /> 
+			        <input type="reset" value="Reset" /></p>
+			    </form>         
+                          
+	             <div>
+	                 <button onClick="logout()" class="btn btn-primary">Logout</button>
+	             </div>
+            </div>
+        </div>
+    </body>
+</html>
